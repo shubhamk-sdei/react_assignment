@@ -11,7 +11,7 @@ function Routes() {
       <Route path="/dash">
         <Dashboard />
       </Route>
-      <Route path="/hero">
+      <Route path="/hero/:heroId">
         <Hero />
       </Route>
     </Switch>

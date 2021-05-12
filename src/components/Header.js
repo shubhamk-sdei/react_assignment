@@ -7,10 +7,13 @@ function Header(props) {
   const dispatch = useDispatch();
   let history = useHistory();
 
-  function redirect(e) {
+  function logout() {
     dispatch(removeUser());
     history.push("/");
-    e.preventDefault();
+  }
+
+  function goToList() {
+    history.push("/dash");
   }
 
   return (
@@ -18,8 +21,8 @@ function Header(props) {
       <div className={classes.logo}>Avengers</div>
       <nav>
         <ul>
-          <li>{`Welcome ${props.name}`}</li>
-          <li onClick={redirect}>Logout</li>
+          <li onClick={goToList}>{`Welcome ${props.name}`}</li>
+          <li onClick={logout}>Logout</li>
         </ul>
       </nav>
     </header>

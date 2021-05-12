@@ -1,8 +1,13 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,61 +24,69 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
     backgroundColor: "#face23",
   },
+  image: {
+    width: 400,
+    height: 500,
+  },
+  img: {
+    margin: "auto",
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "100%",
+  },
 }));
 
 export default function Hero() {
   const classes = useStyles();
-
-  function FirstRow() {
-    return (
-      <React.Fragment>
-        <Grid item xs={4} spacing={1}>
-          {/* <Paper className={classes.paper}>item</Paper> */}
-          <img
-            src="https://placeimg.com/320/240/any"
-            alt="jasda"
-            height={200}
-            width={200}
-          />
-        </Grid>
-        <Grid item xs={8} spacing={3}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-          malesuada sapien quis fringilla lobortis. Etiam elementum odio eu
-          justo tempor faucibus. Fusce sed eros elit. Pellentesque quis mattis
-          dui. Nulla a nisl eget dolor scelerisque eleifend. Ut sed nunc nulla.
-          Duis nec facilisis libero, sed molestie tortor. Aenean tincidunt
-          sapien sed ipsum lacinia, nec consequat orci sagittis. Mauris vel
-          pellentesque ipsum, sed accumsan urna. Nunc lacinia dapibus arcu, in
-          ultrices libero dapibus sit amet. Fusce ut felis sit amet erat
-          placerat semper. Sed porta, felis sed tincidunt dignissim, sapien
-          metus vestibulum lacus, bibendum placerat augue diam
-        </Grid>
-        {/* <Grid item xs={4}>
-          <Paper className={classes.paper}>item</Paper>
-        </Grid> */}
-      </React.Fragment>
-    );
-  }
-
+  const { heroId } = useParams();
+  const heroesData = useSelector((state) => state.heroesData);
+  const currentHero = heroesData.find((hero) => hero.id === heroId);
   return (
-    <div className={classes.root}>
-      <Grid
-        container
-        direction="column"
-        justify="center"
-        alignItems="center"
-        spacing={3}
-        className={classes.head}
-      >
-        <Grid container item xs={6} spacing={3}>
-          <FirstRow />
+    <React.Fragment>
+      <CssBaseline />
+      <Container>
+        <Grid
+          item
+          container
+          direction="column"
+          spacing={2}
+          style={{ marginTop: "10px" }}
+        >
+          <Grid item container direction="row">
+            <Grid item md={4}>
+              <ButtonBase className={classes.image}>
+                <img
+                  className={classes.img}
+                  alt="complex"
+                  // src="https://placeimg.com/400/600/any"
+                  src={currentHero.imageSrc}
+                />
+              </ButtonBase>
+            </Grid>
+            <Grid item md={8}>
+              <Typography variant="h1" component="h2">
+                {currentHero.alias}
+              </Typography>
+              <Typography
+                variant="h4"
+                component="h2"
+                gutterBottom
+                color="primary"
+              >
+                {currentHero.name}
+              </Typography>
+              <Typography variant="body2" component="p">
+                {currentHero.details}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item container direction="row">
+            <Grid item md={12}>
+              <Paper className={classes.paper}>item</Paper>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid container item xs={6} spacing={3}>
-          <Typography variant="body2" component="p">
-            {"Some description and then dots..."}
-          </Typography>
-        </Grid>
-      </Grid>
-    </div>
+      </Container>
+    </React.Fragment>
   );
 }

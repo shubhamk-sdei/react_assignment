@@ -34,12 +34,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleCard() {
+export default function SimpleCard(prop) {
   let history = useHistory();
   const classes = useStyles();
 
   function redirectToFullHeroPage() {
-    history.push("/hero");
+    history.push(`/hero/${prop.heroInfo.id}`);
   }
 
   return (
@@ -47,23 +47,24 @@ export default function SimpleCard() {
       <Card className={classes.root}>
         <CardMedia
           className={classes.media}
-          image="https://placeimg.com/320/240/any"
-          title="Paella dish"
+          image={prop.heroInfo.imageSrc}
+          title={prop.heroInfo.alias}
         />
         <CardContent>
           <Typography variant="h5" component="h2">
-            {"Captain America"}
+            {prop.heroInfo.alias}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
-            {"AKA Steve Rogers"}
+            AKA {prop.heroInfo.name}
           </Typography>
           <Typography variant="body2" component="p">
-            {"Some description and then dots..."}
+            {prop.heroInfo.details.substring(0, 25)}
+            {prop.heroInfo.details.length > 25 && "..."}
           </Typography>
         </CardContent>
         <CardActions>
           <Button size="small" onClick={redirectToFullHeroPage}>
-            Learn More
+            View More
           </Button>
         </CardActions>
       </Card>
