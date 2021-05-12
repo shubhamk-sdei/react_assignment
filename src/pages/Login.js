@@ -9,6 +9,9 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useRef } from "react";
+import { loadUser } from "../dataStore/actions";
 
 function Copyright() {
   return (
@@ -44,11 +47,27 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
+  const dispatch = useDispatch();
+  const email = useRef();
+  const fullName = useRef();
   let history = useHistory();
   const classes = useStyles();
 
   function redirect(e) {
-    history.push("/dash");
+    const currEmail = email.current.value;
+    const currFullName = fullName.current.value;
+    if (currEmail === "" || currFullName === "") {
+      alert(
+        `${
+          email.current.value === ""
+            ? "Please enter Email"
+            : "Please enter Full name"
+        }`
+      );
+    } else {
+      dispatch(loadUser(currEmail, currFullName));
+      history.push("/dash");
+    }
     e.preventDefault();
   }
 
@@ -71,8 +90,9 @@ export default function Login() {
             name="email"
             autoComplete="email"
             autoFocus
+            inputRef={email}
           />
-          <TextField
+          {/* <TextField
             variant="outlined"
             margin="normal"
             required
@@ -82,6 +102,18 @@ export default function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            ref={userName}
+          /> */}
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="fullName"
+            label="Full Name"
+            id="fullName"
+            autoComplete="John Doe"
+            inputRef={fullName}
           />
           <Button
             type="submit"

@@ -24,16 +24,14 @@
 
 .header li {
   margin-left: 3rem;
-}
-
-.header a {
   text-decoration: none;
   font-size: 1rem;
   color: #61dafb;
 }
 
-.header a:hover,
-.header a:active,
-.header a.active {
+.header li:hover,
+.header li:active,
+.header li.active {
   color: white;
+  cursor: pointer;
 }
